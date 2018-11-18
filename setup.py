@@ -4,7 +4,7 @@ with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='api_accessor',
+    name='apiaccessor',
     version='0.0.1',
     author='Daniel Cai',
     author_email='',

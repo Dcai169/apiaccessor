@@ -1,1 +1,1 @@
-name = 'api-accessor'
+name = 'apiaccessor'
