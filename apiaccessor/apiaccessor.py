@@ -24,11 +24,16 @@ class OAuth2:
         # returns access token
 
         # requests a token
+        payload = {'client_id': self.client_id,
+                   'client_secret': self.client_secret,
+                   'username': self.username,
+                   'password': self.password,
+                   'grant_type': 'password'}
         try:
-            t = json.loads(requests.post(self.api_url+'/oauth2/api/token', data = {'client_id':self.client_id,'client_secret':self.client_secret,'username':self.username,'password':self.password,'grant_type':'password'}).text)
+            t = json.loads(requests.post(self.api_url+'/oauth2/api/token', data=payload).text)
         # If a token is not issued, catch the error
         except json.decoder.JSONDecodeError:
-            print(requests.post(self.api_url+'/oauth2/api/token', data = {'client_id':self.client_id,'client_secret':self.client_secret,'username':self.username,'password':self.password,'grant_type':'password'}).text)
+            print(requests.post(self.api_url+'/oauth2/api/token', data=payload).text)
         # write token to memory
         print('token received')
         self.access_token = t['access_token']
