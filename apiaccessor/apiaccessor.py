@@ -47,10 +47,14 @@ class OAuth2:
         # returns nothing, write the token to memory
         print('refresh token')
         # refresh token after an hour
+        payload = {'client_id': self.client_id,
+                   'client_secret': self.client_secret,
+                   'refresh_token': self.refresh_token,
+                   'grant_type': 'refresh_token'}
         try:
-            t = json.loads(requests.post(self.api_url+'/oauth2/api/token', data = {'client_id':self.client_id,'client_secret':self.client_secret, 'refresh_token':self.refresh_token, 'grant_type':'refresh_token'}).text)
+            t = json.loads(requests.post(self.api_url+'/oauth2/api/token', data=payload).text)
         except json.decoder.JSONDecodeError:
-            print(requests.post(self.api_url+'/oauth2/api/token', data = {'client_id':self.client_id,'client_secret':self.client_secret,'refresh_token':self.refresh_token,'grant_type':'refresh_token'}).text)
+            print(requests.post(self.api_url+'/oauth2/api/token', data=payload).text)
         else:
             self.expires_at = t['expires_in'] + time()
             self.access_token = t['access_token']
