@@ -2,5 +2,5 @@
 apiaccessor.egg-info/*
 build/*
 dist/*
-apiaccessor/.idea/workspace.xml
+apiaccessor/.idea/*
 apiaccessor/.idea/workspace.xml
