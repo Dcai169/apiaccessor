@@ -5,35 +5,33 @@ import requests
 
 class OAuth2:
     # The OAuth2 class handles OAuth2 Authentication
-    def __init__(self, api_url, client_id, client_secret, username, password):
-        self.api_url = api_url
+    def __init__(self, token_url, refresh_url, validate_url, client_id, client_secret):
+        self.token_url = token_url
+        self.refresh_url = refresh_url
+        self.validate_url = validate_url
         # client credentials
-        # username and password should be user input
         # client_id and client_secret should be hardcoded
         self.client_id = client_id
         self.client_secret = client_secret
-        self.username = username
-        self.password = password
         # token data
         self.access_token = ''
         self.expires_at = 0
         self.refresh_token = ''
 
-    def get_token(self):
+    def get_token(self, username, password):
         # This requests and receives a token from the server
         # returns access token
-
-        # requests a token
+        # username and password should be user input
         payload = {'client_id': self.client_id,
                    'client_secret': self.client_secret,
-                   'username': self.username,
-                   'password': self.password,
+                   'username': username,
+                   'password': password,
                    'grant_type': 'password'}
         try:
-            t = json.loads(requests.post(self.api_url+'/oauth2/api/token', data=payload).text)
+            t = json.loads(requests.post(self.token_url, data=payload).text)
         # If a token is not issued, catch the error
         except json.decoder.JSONDecodeError:
-            print(requests.post(self.api_url+'/oauth2/api/token', data=payload).text)
+            print(requests.post(self.refresh_url, data=payload).text)
         # write token to memory
         print('token received')
         self.access_token = t['access_token']
@@ -46,7 +44,7 @@ class OAuth2:
         # This will refresh the token if the token has expired
         # returns nothing, write the token to memory
         print('refresh token')
-        # refresh token after an hour
+        # refresh token after it expires
         payload = {'client_id': self.client_id,
                    'client_secret': self.client_secret,
                    'refresh_token': self.refresh_token,
@@ -62,7 +60,7 @@ class OAuth2:
     def validate_token(self):
         # This will check if the token is valid or not
         # returns a boolean based on the validity of the token
-        t = json.loads(requests.post(self.api_url+'/oauth2/api/validate', data = {'token':self.access_token}).text)
+        t = json.loads(requests.post(self.validate_url, data={'token': self.access_token}).text)
         if 'error' in t:
             return False
         else:
@@ -76,7 +74,7 @@ class HeaderKey:
         self.headers = {key_name: key}
         self.timeout = 1
 
-        # Reads from data from API
+    # Reads from data from API
     def reader(self, path):
         output = json.loads(requests.get(self.url + path, params=self.headers).text)
         return output
