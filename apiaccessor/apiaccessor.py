@@ -50,9 +50,9 @@ class OAuth2:
                    'refresh_token': self.refresh_token,
                    'grant_type': 'refresh_token'}
         try:
-            t = json.loads(requests.post(self.api_url+'/oauth2/api/token', data=payload).text)
+            t = json.loads(requests.post(self.refresh_url, data=payload).text)
         except json.decoder.JSONDecodeError:
-            print(requests.post(self.api_url+'/oauth2/api/token', data=payload).text)
+            print(requests.post(self.refresh_url, data=payload).text)
         else:
             self.expires_at = t['expires_in'] + time()
             self.access_token = t['access_token']
@@ -67,7 +67,7 @@ class OAuth2:
             return True
 
 
-class HeaderKey:
+class XAPIKey:
     def __init__(self, url, key_name, key):
         self.data = []
         self.url = url
