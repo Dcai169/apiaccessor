@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='apiaccessor',
-    version='0.0.1.2',
+    version='0.0.1.1',
     author='Daniel Cai',
     author_email='',
     description='A module to access API\'s using OAuth2 or Header-Key authentication.',
