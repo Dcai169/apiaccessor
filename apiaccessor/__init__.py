@@ -76,7 +76,7 @@ class XAPIKey:
         self.timeout = 1
 
     # Reads from data from API
-    def reader(self, path):
-        output = json.loads(requests.get(self.url + path, params=self.headers).text)
+    def reader(self, path, query):
+        output = json.loads(requests.get(self.url + path, headers=self.headers, params=query).text)
         return output
 
