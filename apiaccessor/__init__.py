@@ -77,6 +77,6 @@ class XAPIKey:
 
     # Reads from data from API
     def reader(self, path, query):
-        output = json.loads(requests.get(self.url + path, headers=self.headers, params=query).text)
-        return output
+        r = requests.get(self.url + path, headers=self.headers, params=query).text
+        return r
 
